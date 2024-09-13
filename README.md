@@ -10,7 +10,7 @@ For any technical questions, please contact info@accelerynt.com
 This playbook is designed to run on a timed trigger and pull Microsoft Graph and Microsoft Office logs to Microsoft Sentinel using Data Collection Endpoints and Data Collection Rules. While Microsoft does have built in connectors for this, they do not support multitenant functionality. This playbook is intended for multitenant organizations struggling with this limitation. This playbook is configured to grab the following logs for a tenant of your choosing:
 * [Microsoft Graph Sign-In Logs](https://learn.microsoft.com/en-us/graph/api/signin-get?view=graph-rest-1.0&tabs=http)
 * [Microsoft Graph Audit Logs](https://learn.microsoft.com/en-us/graph/api/directoryaudit-get?view=graph-rest-1.0&tabs=http)
-* [Microsoft Office Activity Logs](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference)
+* [Microsoft Office Activity Logs](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference). 
                                                                                                                                      
 ![DCRLogIngestion_Demo_1](Images/DCRLogIngestion_Demo_1.png)
 
@@ -24,6 +24,7 @@ The following items are required under the template settings during deployment:
 
 * A Microsoft Azure Active Directory [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" in the "**Activity.Feed.Read**" API
 * An [App Registration Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secret
+* Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be recieving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
 * A [Microsoft Azure Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
 * A [Microsoft Azure Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
 * An [Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret) containing your client secret for each of your Data Collection Endpoints
@@ -109,7 +110,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_1](Images/DCRLogIngestion_Data_Collection_Endpoint_1.png)
 
-Enter "**SignIn-Logs**" as the Endpoint Name and select the Subscription, Resource Group, and Region. These should match the Subscription and Resource Group of the playbook you will deploy later. Click "**Review + create**".
+Enter "**SignInLogsDCE**" as the Endpoint Name and select the Subscription and Resource Group. These should match the Subscription and Resource Group of the playbook you will deploy later. Ensure the Region location matches that of your workspace.  Click "**Review + create**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_2](Images/DCRLogIngestion_Data_Collection_Endpoint_2.png)
 
@@ -117,23 +118,23 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_3](Images/DCRLogIngestion_Data_Collection_Endpoint_3.png)
 
-Repeat this process for "**Audit-Logs**".
+Repeat this process for "**AuditLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_4](Images/DCRLogIngestion_Data_Collection_Endpoint_4.png)
 
-Repeat this process for "**Office-Activity-Logs**".
+Repeat this process for "**OfficeActivityLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_5](Images/DCRLogIngestion_Data_Collection_Endpoint_5.png)
 
 #### Create the Data Collection Rules
 
-Navigate to the Microsoft Data Collection Rules page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionrules
+From the tenant you wish to send the data to, navigate to the Microsoft Log Analytics Workspace page: https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces
 
-Click "**Create**".
+Select the desired workspace, and note the location value- this will be needed for the other resources you create.
 
 ![DCRLogIngestion_Data_Collection_Rule_1](Images/DCRLogIngestion_Data_Collection_Rule_1.png)
 
-Enter "**SignIn-Logs**" as the Rule Name and select the Subscription, Resource Group, and Region. These should match the Subscription and Resource Group of the playbook you will deploy later. Select "**All**" for the Platform Type, and select the corresponding Data Collection endpoint. Click "**Review + create**".
+From the selected workspace, navigate to "**Tables**" located under settings, click "**Create**" and select "**New custom log (DCR based)**".
 
 ![DCRLogIngestion_Data_Collection_Rule_2](Images/DCRLogIngestion_Data_Collection_Rule_2.png)
 
