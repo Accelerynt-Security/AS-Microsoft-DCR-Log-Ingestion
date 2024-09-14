@@ -16,6 +16,7 @@ This playbook is designed to run on a timed trigger and pull Microsoft Graph and
 
 ![DCRLogIngestion_Demo_2](Images/DCRLogIngestion_Demo_2.png)
 
+
 #
 ### Requirements
                                                                                                                                      
@@ -23,7 +24,7 @@ The following items are required under the template settings during deployment:
 
 * A Microsoft Azure Active Directory [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" in the "**Activity.Feed.Read**" API
 * An [App Registration Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secret
-* Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be receiving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
+* Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be recieving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
 * A [Microsoft Azure Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
 * A [Microsoft Azure Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
 * An [Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret) containing your client secret for each of your Data Collection Endpoints
@@ -83,6 +84,7 @@ Copy the value of the secret that is generated, as this will be needed for [Crea
 
 ![DCRLogIngestion_App_Registration_12](Images/DCRLogIngestion_App_Registration_12.png)
 
+
 #### Create an App Registration Azure Key Vault Secret
 
 The secret from the previous step will need to be stored in the tenant you wish to send the data to, as this is where the logic app will be deployed. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
@@ -98,6 +100,7 @@ Choose a name for the secret, such as "**AS-Microsoft-DCR-Log-Ingestion--App-Reg
 Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
 
 ![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Key_Vault_3.png)
+
 
 #### Create the Data Collection Endpoints
 
@@ -147,13 +150,28 @@ The next step will prompt you for a data sample.
 
 ![DCRLogIngestion_Data_Collection_Rule_5](Images/DCRLogIngestion_Data_Collection_Rule_5.png)
 
-Upload the file content located at Samples/SignInLogsSample.json, then click "**Next**".
+Upload the file content located at [Samples/SignInLogsSample.json](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Samples/SignInLogsSample.json), then click "**Next**".
 
 ![DCRLogIngestion_Data_Collection_Rule_6](Images/DCRLogIngestion_Data_Collection_Rule_6.png)
 
 Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_7](Images/DCRLogIngestion_Data_Collection_Rule_7.png)
+
+This process will need to be repeated for "**AuditLogsDCR**". Enter "**AzureAuditLogs**" as the table name and select "**AuditLogsDCE**" from the drop down list.
+
+![DCRLogIngestion_Data_Collection_Rule_8](Images/DCRLogIngestion_Data_Collection_Rule_8.png)
+
+Upload the file content located at [Samples/AuditLogsSample.json](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Samples/AuditLogsSample.json), then click "**Next**".
+
+![DCRLogIngestion_Data_Collection_Rule_9](Images/DCRLogIngestion_Data_Collection_Rule_9.png)
+
+Click "**Create**".
+
+![DCRLogIngestion_Data_Collection_Rule_10](Images/DCRLogIngestion_Data_Collection_Rule_10.png)
+
+
+
 
 #### Create Azure Key Vault Secrets
 
@@ -170,6 +188,7 @@ Choose a name for the secret, such as "**AS-Microsoft-DCR-Log-Ingestion--App-Reg
 Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
 
 ![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Key_Vault_3.png)
+
 
 #
 ### Deployment
@@ -211,6 +230,7 @@ The resources should take around a minute to deploy. Once the deployment is comp
 Click the one corresponding to the Logic App.
 
 ![DCRLogIngestion_Deploy_3](Images/DCRLogIngestion_Deploy_3.png)
+
 
 #
 ### Granting Access to Azure Key Vault
