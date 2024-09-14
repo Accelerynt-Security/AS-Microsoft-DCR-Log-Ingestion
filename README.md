@@ -22,7 +22,7 @@ This playbook is designed to run on a timed trigger and pull Microsoft Graph and
                                                                                                                                      
 The following items are required under the template settings during deployment: 
 
-* A Microsoft Azure Active Directory [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" in the "**Activity.Feed.Read**" API
+* A Microsoft Azure Active Directory [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**" 
 * An [App Registration Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secret
 * Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be recieving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
 * A [Microsoft Azure Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
