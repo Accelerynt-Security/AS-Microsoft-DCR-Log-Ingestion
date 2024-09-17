@@ -158,7 +158,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_7](Images/DCRLogIngestion_Data_Collection_Rule_7.png)
 
-This process will need to be repeated for "**AuditLogsDCR**". Enter "**AzureAuditLogs**" as the table name and select "**AuditLogsDCE**" from the drop down list.
+This process will need to be repeated for "**AuditLogsDCR**". After creating the "**AuditLogsDCR**" Data Collection Rule in the way that was shown for "**SignInLogsDCR**", enter "**AzureAuditLogs**" as the table name and select "**AuditLogsDCE**" from the drop down list.
 
 ![DCRLogIngestion_Data_Collection_Rule_8](Images/DCRLogIngestion_Data_Collection_Rule_8.png)
 
@@ -170,7 +170,17 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_10](Images/DCRLogIngestion_Data_Collection_Rule_10.png)
 
+This process will need to be repeated for "**O365GeneralAuditLogsDCR**". After creating the "**O365GeneralAuditLogsDCR**" Data Collection Rule in the way that was shown for "**SignInLogsDCR**", enter "**O365GeneralAuditLogs**" as the table name and select "**O365GeneralAuditLogsDCE**" from the drop down list.
 
+![DCRLogIngestion_Data_Collection_Rule_11](Images/DCRLogIngestion_Data_Collection_Rule_11.png)
+
+Upload the file content located at [Samples/O365GeneralAuditLogsSample.json](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Samples/O365GeneralAuditLogsSample.json), then click "**Next**".
+
+![DCRLogIngestion_Data_Collection_Rule_12](Images/DCRLogIngestion_Data_Collection_Rule_12.png)
+
+Click "**Create**".
+
+![DCRLogIngestion_Data_Collection_Rule_13](Images/DCRLogIngestion_Data_Collection_Rule_13.png)
 
 
 #### Create Azure Key Vault Secrets
