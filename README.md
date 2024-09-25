@@ -22,11 +22,11 @@ This playbook is designed to run on a timed trigger and pull Microsoft Graph and
                                                                                                                                      
 The following items are required under the template settings during deployment: 
 
-* A Microsoft Azure Active Directory [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**" 
+* A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**" 
 * An [App Registration Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secret
 * Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be recieving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
-* A [Microsoft Azure Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
-* A [Microsoft Azure Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
+* A [Microsoft Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
+* A [Microsoft Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
 * An [Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret) containing your client secret for each of your Data Collection Endpoints
 
 # 
@@ -110,7 +110,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_1](Images/DCRLogIngestion_Data_Collection_Endpoint_1.png)
 
-Enter "**SignInLogsDCE**" as the Endpoint Name and select the Subscription and Resource Group. These should match the Subscription and Resource Group of the playbook you will deploy later. Ensure the Region location matches that of your workspace.  Click "**Review + create**".
+Enter "**EntraSignInLogsDCE**" as the Endpoint Name and select the Subscription and Resource Group. These should match the Subscription and Resource Group of the playbook you will deploy later. Ensure the Region location matches that of your workspace.  Click "**Review + create**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_2](Images/DCRLogIngestion_Data_Collection_Endpoint_2.png)
 
@@ -118,13 +118,39 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_3](Images/DCRLogIngestion_Data_Collection_Endpoint_3.png)
 
-Repeat this process for "**AuditLogsDCE**".
+Repeat this process for "**EntraAuditLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_4](Images/DCRLogIngestion_Data_Collection_Endpoint_4.png)
 
 Repeat this process for "**OfficeActivityLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_5](Images/DCRLogIngestion_Data_Collection_Endpoint_5.png)
+
+
+#### Create the App Registrations for the DCEs
+
+From the tenant you wish to send the Microsoft Graph and Office data to, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+
+Click "**New registration**".
+
+![DCRLogIngestion_App_Registration_DCE_1](Images/DCRLogIngestion_App_Registration_DCE_1.png)
+
+Enter "**EntraSignInLogsAppReg**" for the name, and select "**Accounts in any organizational directory**" for "**Supported account types**. All else can be left as is. Click "**Register**"
+
+![DCRLogIngestion_App_Registration_DCE_2](Images/DCRLogIngestion_App_Registration_DCE_2.png)
+
+Once the app registration is created, you will be redirected to the "**Overview**" page. Under the "**Essentials**" section, take note of the "**Application (client) ID**", as this will be needed for deployment.
+
+![DCRLogIngestion_App_Registration_DCE_3](Images/DCRLogIngestion_App_Registration_DCE_3.png)
+
+A client secret will need to be generated for the app registration. From the left menu blade, click "**Certificates & secrets**" under the "**Manage**" section. Then, click "**New client secret**".Enter a description and select the desired expiration date, then click "**Add**".
+
+![DCRLogIngestion_App_Registration_4](Images/DCRLogIngestion_App_Registration_4.png)
+
+Copy the value of the secret that is generated, as this will be needed for [Create an Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret).
+
+![DCRLogIngestion_App_Registration_5](Images/DCRLogIngestion_App_Registration_5.png)
+
 
 #### Create the Data Collection Rules
 
@@ -138,11 +164,11 @@ From the selected workspace, navigate to "**Tables**" located under settings, cl
 
 ![DCRLogIngestion_Data_Collection_Rule_2](Images/DCRLogIngestion_Data_Collection_Rule_2.png)
 
-First, click "**Create a new Data Collection Rule**" beleow the Data Collection Rule field. Then enter "**SignInLogsDCR**" for the name in the window that appears on the right. Ensure the Subscription, Resource Group, and Region all look correct, then click "**Done**".
+First, click "**Create a new Data Collection Rule**" beleow the Data Collection Rule field. Then enter "**EntraSignInLogsDCR**" for the name in the window that appears on the right. Ensure the Subscription, Resource Group, and Region all look correct, then click "**Done**".
 
 ![DCRLogIngestion_Data_Collection_Rule_3](Images/DCRLogIngestion_Data_Collection_Rule_3.png)
 
-Next enter "**AzureSignInLogs**" as the table name and select "**SignInLogsDCE**" from the drop down list. If this option is not populating, double check the region used for the Data Collection Endpoint created in the previous step. Click "**Next**".
+Next enter "**EntraSignInLogs**" as the table name and select "**EntraSignInLogsDCE**" from the drop down list. If this option is not populating, double check the region used for the Data Collection Endpoint created in the previous step. Click "**Next**".
 
 ![DCRLogIngestion_Data_Collection_Rule_4](Images/DCRLogIngestion_Data_Collection_Rule_4.png)
 
@@ -158,7 +184,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_7](Images/DCRLogIngestion_Data_Collection_Rule_7.png)
 
-This process will need to be repeated for "**AuditLogsDCR**". After creating the "**AuditLogsDCR**" Data Collection Rule in the way that was shown for "**SignInLogsDCR**", enter "**AzureAuditLogs**" as the table name and select "**AuditLogsDCE**" from the drop down list.
+This process will need to be repeated for "**EntraAuditLogsDCR**". After creating the "**EntraAuditLogsDCR**" Data Collection Rule in the way that was shown for "**EntraSignInLogsDCR**", enter "**EntraAuditLogs**" as the table name and select "**EntraAuditLogsDCE**" from the drop down list.
 
 ![DCRLogIngestion_Data_Collection_Rule_8](Images/DCRLogIngestion_Data_Collection_Rule_8.png)
 
@@ -170,11 +196,11 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_10](Images/DCRLogIngestion_Data_Collection_Rule_10.png)
 
-This process will need to be repeated for "**O365GeneralAuditLogsDCR**". After creating the "**O365GeneralAuditLogsDCR**" Data Collection Rule in the way that was shown for "**SignInLogsDCR**", enter "**O365GeneralAuditLogs**" as the table name and select "**O365GeneralAuditLogsDCE**" from the drop down list.
+This process will need to be repeated for "**OfficeActivityLogsDCR**". After creating the "**OfficeActivityLogsDCR**" Data Collection Rule in the way that was shown for "**EntraSignInLogsDCR**", enter "**OfficeActivityLogs**" as the table name and select "**OfficeActivityLogsDCE**" from the drop down list.
 
 ![DCRLogIngestion_Data_Collection_Rule_11](Images/DCRLogIngestion_Data_Collection_Rule_11.png)
 
-Upload the file content located at [Samples/O365GeneralAuditLogsSample.json](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Samples/O365GeneralAuditLogsSample.json), then click "**Next**".
+Upload the file content located at [Samples/OfficeActivityLogsSample.json](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Samples/O365GeneralAuditLogsSample.json), then click "**Next**".
 
 ![DCRLogIngestion_Data_Collection_Rule_12](Images/DCRLogIngestion_Data_Collection_Rule_12.png)
 
