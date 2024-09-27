@@ -93,7 +93,7 @@ Navigate to an existing key vault or create a new one. From the key vault overvi
 
 ![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Key_Vault_1.png)
 
-Choose a name for the secret, such as "**AS-Microsoft-DCR-Log-Ingestion--App-Registration-Client-Secret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
+Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
 
@@ -125,31 +125,6 @@ Repeat this process for "**EntraAuditLogsDCE**".
 Repeat this process for "**OfficeActivityLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_5](Images/DCRLogIngestion_Data_Collection_Endpoint_5.png)
-
-
-#### Create the App Registrations for the DCEs
-
-From the tenant you wish to send the Microsoft Graph and Office data to, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
-
-Click "**New registration**".
-
-![DCRLogIngestion_App_Registration_DCE_1](Images/DCRLogIngestion_App_Registration_DCE_1.png)
-
-Enter "**EntraSignInLogsAppReg**" for the name, and select "**Accounts in any organizational directory**" for "**Supported account types**. All else can be left as is. Click "**Register**"
-
-![DCRLogIngestion_App_Registration_DCE_2](Images/DCRLogIngestion_App_Registration_DCE_2.png)
-
-Once the app registration is created, you will be redirected to the "**Overview**" page. Under the "**Essentials**" section, take note of the "**Application (client) ID**", as this will be needed for deployment.
-
-![DCRLogIngestion_App_Registration_DCE_3](Images/DCRLogIngestion_App_Registration_DCE_3.png)
-
-A client secret will need to be generated for the app registration. From the left menu blade, click "**Certificates & secrets**" under the "**Manage**" section. Then, click "**New client secret**".Enter a description and select the desired expiration date, then click "**Add**".
-
-![DCRLogIngestion_App_Registration_4](Images/DCRLogIngestion_App_Registration_4.png)
-
-Copy the value of the secret that is generated, as this will be needed for [Create an Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret).
-
-![DCRLogIngestion_App_Registration_5](Images/DCRLogIngestion_App_Registration_5.png)
 
 
 #### Create the Data Collection Rules
@@ -208,16 +183,46 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_13](Images/DCRLogIngestion_Data_Collection_Rule_13.png)
 
+#### Create an App Registration for the DCRs
 
-#### Create Azure Key Vault Secrets
+From the tenant you wish to send the Microsoft Graph and Office data to, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
 
-Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
+Click "**New registration**".
+
+![DCRLogIngestion_App_Registration_DCR_1](Images/DCRLogIngestion_App_Registration_DCR_1.png)
+
+Enter "**DCRLogIngestionAppReg**" for the name, and select "**Accounts in this organizational directory only**" for "**Supported account types**. All else can be left as is. Click "**Register**"
+
+![DCRLogIngestion_App_Registration_DCR_2](Images/DCRLogIngestion_App_Registration_DCR_2.png)
+
+Once the app registration is created, you will be redirected to the "**Overview**" page. Under the "**Essentials**" section, take note of the "**Application (client) ID**", as this will be needed for deployment.
+
+![DCRLogIngestion_App_Registration_DCR_3](Images/DCRLogIngestion_App_Registration_DCR_3.png)
+
+A client secret will need to be generated for the app registration. From the left menu blade, click "**Certificates & secrets**" under the "**Manage**" section. Then, click "**New client secret**".Enter a description and select the desired expiration date, then click "**Add**".
+
+![DCRLogIngestion_App_Registration_DCR_4](Images/DCRLogIngestion_App_Registration_DCR_4.png)
+
+Copy the value of the secret that is generated, as this will be needed for [Create an Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret).
+
+![DCRLogIngestion_App_Registration_DCR_5](Images/DCRLogIngestion_App_Registration_DCR_5.png)
+
+Next, IAM access for this App Registration will need to be added from each of the DCRs created in the previos step. Navigate to the Data Collection Rules page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionrules
+
+Select the "**EntraSignInLogsDCR**" and select "**Access control (IAM)**" and click "**Add**".
+
+![DCRLogIngestion_App_Registration_DCR_6](Images/DCRLogIngestion_App_Registration_DCR_6.png)
+
+
+#### Create a Receiving App Registration Azure Key Vault Secret
+
+As before, secret from the previous step will need to be stored in the tenant you wish to send the data to. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
 
 Navigate to an existing key vault or create a new one. From the key vault overview page, click the "**Secrets**" menu option, found under the "**Settings**" section. Click "**Generate/Import**".
 
 ![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Key_Vault_1.png)
 
-Choose a name for the secret, such as "**AS-Microsoft-DCR-Log-Ingestion--App-Registration-Client-Secret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
+Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
 
