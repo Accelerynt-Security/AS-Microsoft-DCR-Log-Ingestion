@@ -236,15 +236,16 @@ As before, secret from the previous step will need to be stored in the tenant yo
 
 Navigate to an existing key vault or create a new one. From the key vault overview page, click the "**Secrets**" menu option, found under the "**Settings**" section. Click "**Generate/Import**".
 
-![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Key_Vault_1.png)
+![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Receiving_Key_Vault_1.png)
 
 Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
 
-![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
+![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Receiving_Key_Vault_2.png)
 
 Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
 
-![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Key_Vault_3.png)
+![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Receiving_Key_Vault_3.png)
+
 
 #
 ### Deployment
