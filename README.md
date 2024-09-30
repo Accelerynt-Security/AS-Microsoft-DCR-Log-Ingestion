@@ -1,4 +1,4 @@
-# AS-Microsoft-DCR-Log-Ingestion
+ # AS-Microsoft-DCR-Log-Ingestion
 
 Author: Accelerynt
 
@@ -16,7 +16,6 @@ This playbook is designed to run on a timed trigger and pull Microsoft Graph and
 
 ![DCRLogIngestion_Demo_2](Images/DCRLogIngestion_Demo_2.png)
 
-
 #
 ### Requirements
                                                                                                                                      
@@ -24,7 +23,7 @@ The following items are required under the template settings during deployment:
 
 * A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**" 
 * An [App Registration Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secret
-* Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be recieving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
+* Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be receiving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
 * A [Microsoft Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
 * A [Microsoft Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
 * An [Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret) containing your client secret for each of your Data Collection Endpoints
@@ -84,7 +83,6 @@ Copy the value of the secret that is generated, as this will be needed for [Crea
 
 ![DCRLogIngestion_App_Registration_12](Images/DCRLogIngestion_App_Registration_12.png)
 
-
 #### Create an App Registration Azure Key Vault Secret
 
 The secret from the previous step will need to be stored in the tenant you wish to send the data to, as this is where the logic app will be deployed. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
@@ -100,7 +98,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSe
 Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
 
 ![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Key_Vault_3.png)
-
 
 #### Create the Data Collection Endpoints
 
@@ -126,7 +123,6 @@ Repeat this process for "**OfficeActivityLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_5](Images/DCRLogIngestion_Data_Collection_Endpoint_5.png)
 
-
 #### Create the Data Collection Rules
 
 From the tenant you wish to send the data to, navigate to the Microsoft Log Analytics Workspace page: https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces
@@ -139,7 +135,7 @@ From the selected workspace, navigate to "**Tables**" located under settings, cl
 
 ![DCRLogIngestion_Data_Collection_Rule_2](Images/DCRLogIngestion_Data_Collection_Rule_2.png)
 
-First, click "**Create a new Data Collection Rule**" beleow the Data Collection Rule field. Then enter "**EntraSignInLogsDCR**" for the name in the window that appears on the right. Ensure the Subscription, Resource Group, and Region all look correct, then click "**Done**".
+First, click "**Create a new Data Collection Rule**" below the Data Collection Rule field. Then enter "**EntraSignInLogsDCR**" for the name in the window that appears on the right. Ensure the Subscription, Resource Group, and Region all look correct, then click "**Done**".
 
 ![DCRLogIngestion_Data_Collection_Rule_3](Images/DCRLogIngestion_Data_Collection_Rule_3.png)
 
@@ -171,7 +167,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_10](Images/DCRLogIngestion_Data_Collection_Rule_10.png)
 
-This process will need to be repeated for "**OfficeActivityLogsDCR**". After creating the "**OfficeActivityLogsDCR**" Data Collection Rule in the way that was shown for "**EntraSignInLogsDCR**", enter "**OfficeActivityLogs**" as the table name and select "**OfficeActivityLogsDCE**" from the drop down list.
+This process will need to be repeated for "**OfficeActivityLogsDCR**". After creating the "**OfficeActivityLogsDCR**" Data Collection Rule in the way that was shown for “**EntraSignInLogsDCR**", enter "**OfficeActivityLogs**" as the table name and select "**OfficeActivityLogsDCE**" from the drop down list.
 
 ![DCRLogIngestion_Data_Collection_Rule_11](Images/DCRLogIngestion_Data_Collection_Rule_11.png)
 
@@ -191,7 +187,7 @@ Click "**New registration**".
 
 ![DCRLogIngestion_App_Registration_DCR_1](Images/DCRLogIngestion_App_Registration_DCR_1.png)
 
-Enter "**DCRLogIngestionAppReg**" for the name, and select "**Accounts in this organizational directory only**" for "**Supported account types**. All else can be left as is. Click "**Register**"
+Enter "**DCRLogIngestionAppReg**" for the name and select "**Accounts in this organizational directory only**" for "**Supported account types**. All else can be left as is. Click "**Register**"
 
 ![DCRLogIngestion_App_Registration_DCR_2](Images/DCRLogIngestion_App_Registration_DCR_2.png)
 
@@ -199,7 +195,7 @@ Once the app registration is created, you will be redirected to the "**Overview*
 
 ![DCRLogIngestion_App_Registration_DCR_3](Images/DCRLogIngestion_App_Registration_DCR_3.png)
 
-A client secret will need to be generated for the app registration. From the left menu blade, click "**Certificates & secrets**" under the "**Manage**" section. Then, click "**New client secret**".Enter a description and select the desired expiration date, then click "**Add**".
+A client secret will need to be generated for the app registration. From the left menu blade, click "**Certificates & secrets**" under the "**Manage**" section. Then, click "**New client secret**”. Enter a description and select the desired expiration date, then click "**Add**".
 
 ![DCRLogIngestion_App_Registration_DCR_4](Images/DCRLogIngestion_App_Registration_DCR_4.png)
 
@@ -207,11 +203,31 @@ Copy the value of the secret that is generated, as this will be needed for [Crea
 
 ![DCRLogIngestion_App_Registration_DCR_5](Images/DCRLogIngestion_App_Registration_DCR_5.png)
 
-Next, IAM access for this App Registration will need to be added from each of the DCRs created in the previos step. Navigate to the Data Collection Rules page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionrules
+Next, IAM access for this App Registration will need to be added from each of the DCRs created in the previous step. Navigate to the Data Collection Rules page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionrules
 
-Select the "**EntraSignInLogsDCR**" and select "**Access control (IAM)**" and click "**Add**".
+Select the "**EntraSignInLogsDCR**" and select "**Access control (IAM)**". Click "**Add**" and select "**Add role assignment**".
 
 ![DCRLogIngestion_App_Registration_DCR_6](Images/DCRLogIngestion_App_Registration_DCR_6.png)
+
+Select "**Log Analytics Contributor**" and click "**Next**".
+
+![DCRLogIngestion_App_Registration_DCR_7](Images/DCRLogIngestion_App_Registration_DCR_7.png)
+
+Select "**User, group, or service principal**" as the access option, then click "**Select members**". Past "**DCRLogIngestionAppReg**" into the search bar at the top of the right pane and select the app registration that appears, then click "**Select**".
+
+![DCRLogIngestion_App_Registration_DCR_8](Images/DCRLogIngestion_App_Registration_DCR_8.png)
+
+Click "**Review + assign**".
+
+![DCRLogIngestion_App_Registration_DCR_9](Images/DCRLogIngestion_App_Registration_DCR_9.png)
+
+Repeat this process for the "**EntraAuditLogsDCR**".
+
+![DCRLogIngestion_App_Registration_DCR_10](Images/DCRLogIngestion_App_Registration_DCR_10.png)
+
+Lastly, repeat this process for "**OfficeActivityLogsDCR**".
+
+![DCRLogIngestion_App_Registration_DCR_11](Images/DCRLogIngestion_App_Registration_DCR_11.png)
 
 
 #### Create a Receiving App Registration Azure Key Vault Secret
@@ -229,7 +245,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSe
 Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
 
 ![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Key_Vault_3.png)
-
 
 #
 ### Deployment
@@ -271,7 +286,6 @@ The resources should take around a minute to deploy. Once the deployment is comp
 Click the one corresponding to the Logic App.
 
 ![DCRLogIngestion_Deploy_3](Images/DCRLogIngestion_Deploy_3.png)
-
 
 #
 ### Granting Access to Azure Key Vault
