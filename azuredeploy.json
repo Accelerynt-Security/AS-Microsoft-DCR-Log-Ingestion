@@ -23,88 +23,94 @@
                 "description": "Name of the Logic App resource to be created"
             }
         },
-        "AppRegistrationClientID": {
+        "SendingAppRegistrationTenantId": {
             "type": "string",
             "metadata" : {
-                "description" : "Enter the Application (client) ID of your App Registration"
+                "description" : "Enter the Directory (tenant) Id of the App Registration that will be used to send data"
+            }
+        },
+        "SendingAppRegistrationClientID": {
+            "type": "string",
+            "metadata" : {
+                "description" : "Enter the Application (client) ID of the App Registration that will be used to send data"
+            }
+        },
+        "ReceivingAppRegistrationClientID": {
+            "type": "string",
+            "metadata" : {
+                "description" : "Enter the Application (client) ID of the App Registration that will be used to receive data"
             }
         },
         "KeyVaultName": {
             "type": "string",
             "metadata" : {
-                "description" : "Name of the Key Vault that stores the App Registration and DCR client secrets"
+                "description" : "Name of the Key Vault that stores the App Registration client secrets"
             }
         },
-        "AppRegistrationKeyVaultSecretName": {
+        "SendingAppRegistrationKeyVaultSecretName": {
             "type": "string",
             "metadata": {
                 "description": "Name of Key Vault Secret that contains the App Registration client secret"
             }
         },
-        "GraphAuditClientID": {
-            "type": "string",
-            "metadata" : {
-                "description" : "Enter the Application (client) ID of your Data Collection Rule Endpoint for Microsoft Graph"
-            }
-        },
-        "GraphAuditKeyVaultSecretName": {
+        "ReceivingAppRegistrationKeyVaultSecretName": {
             "type": "string",
             "metadata": {
-                "description": "Name of Key Vault Secret that contains the Microsoft Graph Data Collection Rule Endpoint client secret"
+                "description": "Name of Key Vault Secret that contains the App Registration client secret"
             }
         },
-        "GraphAuditDCR": {
+        "EntraSignInLogsIngestionURL": {
             "type": "string",
             "metadata": {
-                "description": "Id of the Microsoft Graph Data Collection Rule Endpoint"
+                "description": "Enter the Logs Ingestion URL from the EntraSignInLogs DCE"
             }
         },
-        "OfficeActivityClientID": {
-            "type": "string",
-            "metadata" : {
-                "description" : "Enter the Application (client) ID of your Data Collection Rule Endpoint for Microsoft Office"
-            }
-        },
-        "OfficeActivtyKeyVaultSecretName": {
+        "EntraSignInLogsImmutableId": {
             "type": "string",
             "metadata": {
-                "description": "Name of Key Vault Secret that contains the Microsoft Office Data Collection Rule Endpoint client secret"
+                "description": "Enter the ImmutableId from the EntraSignInLogs DCR"
             }
         },
-        "OfficeActivtyDCRHost": {
+        "EntraSignInLogsDataSource": {
             "type": "string",
             "metadata": {
-                "description": "Host of the Microsoft Office Data Collection Rule URL"
+                "description": "Enter the data source from the EntraSignInLogs DCR"
             }
         },
-        "OfficeActivtyDCR": {
+        "EntraAuditLogsIngestionURL": {
             "type": "string",
             "metadata": {
-                "description": "Id of the Microsoft Office Data Collection Rule Endpoint"
+                "description": "Enter the Logs Ingestion URL from the EntraAuditLogs DCE"
             }
         },
-        "SignInClientID": {
-            "type": "string",
-            "metadata" : {
-                "description" : "Enter the Application (client) ID of your Data Collection Rule Endpoint for Microsoft Graph"
-            }
-        },
-        "SignInKeyVaultSecretName": {
+        "EntraAuditLogsImmutableId": {
             "type": "string",
             "metadata": {
-                "description": "Name of Key Vault Secret that contains the Microsoft Graph Data Collection Rule Endpoint client secret"
+                "description": "Enter the ImmutableId from the EntraAuditLogs DCR"
             }
         },
-        "SignInDCRHost": {
+        "EntraAuditLogsDataSource": {
             "type": "string",
             "metadata": {
-                "description": "Host of the Microsoft Graph Data Collection Rule URL"
+                "description": "Enter the data source from the EntraAuditLogs DCR"
             }
         },
-        "SignInDCRURL": {
+        "OfficeActivityIngestionURL": {
             "type": "string",
             "metadata": {
-                "description": "Full URL of the Microsoft Graph Data Collection Rule Endpoint"
+                "description": "Enter the Logs Ingestion URL from the OfficeActivty DCE"
+            }
+        },
+        "OfficeActivtyImmutableId": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the ImmutableId from the OfficeActivty DCR"
+            }
+        },
+        "OfficeActivtyDataSource": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the data source from the OfficeActivty DCR"
             }
         }
     },
@@ -180,13 +186,13 @@
                                                     "@items('For_each_-_Content_URI_Item')"
                                                 ],
                                                 "headers": {
-                                                    "Authorization": "Bearer @{body('HTTP_-_Authenticate_to_Office_Activity_Logs_Data_Collection_Endpoint')?['access_token']}",
+                                                    "Authorization": "Bearer @{body('HTTP_-_Authenticate_to_OfficeActivityLogs_Data_Collection_Endpoint')?['access_token']}",
                                                     "Content-Length": "@{length(string(items('For_each_-_Content_URI_Item')))}",
                                                     "Content-Type": "application/json",
-                                                    "Host": "[parameters('OfficeActivtyDCRHost')]"
+                                                    "Host": "[parameters('OfficeActivityIngestionURL')]"
                                                 },
                                                 "method": "POST",
-                                                "uri": "[parameters('OfficeActivtyDCRURL')]"
+                                                "uri": "[concat(parameters('OfficeActivityIngestionURL'), '/dataCollectionRules/', parameters('OfficeActivtyImmutableId'), '/streams/', parameters('OfficeActivtyDataSource'), '?api-version=2023-01-01')]"
                                             },
                                             "runAfter": {},
                                             "type": "Http"
@@ -204,9 +210,9 @@
                                     "inputs": {
                                         "authentication": {
                                             "audience": "https://manage.office.com",
-                                            "clientId": "[parameters('AppRegistrationClientID')]",
-                                            "secret": "@{body(''Get_Client_Secret'')?[''value'']}",
-                                            "tenant": "[subscription().tenantId]",
+                                            "clientId": "[parameters('SendingAppRegistrationClientID')]",
+                                            "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                            "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                             "type": "ActiveDirectoryOAuth"
                                         },
                                         "method": "GET",
@@ -218,61 +224,61 @@
                             },
                             "foreach": "@body('HTTP_-_Get_O365_Audit_General_Logs')",
                             "runAfter": {
-                                "HTTP_-_Authenticate_to_Office_Activity_Logs_Data_Collection_Endpoint": [
+                                "HTTP_-_Authenticate_to_OfficeActivityLogs_Data_Collection_Endpoint": [
                                     "Succeeded"
                                 ]
                             },
                             "type": "Foreach"
                         },
-                        "For_each_-_Microsoft_Graph_Audit_Logs": {
+                        "For_each_-_Entra_Audit_Logs": {
                             "actions": {
-                                "HTTP_-_Send_Data_to_Microsoft_Graph_Audit_Log_Data_Collection_Endpoint": {
+                                "HTTP_-_Send_Data_to_Entra_Audit_Log_Data_Collection_Endpoint": {
                                     "inputs": {
                                         "body": [
-                                            "@items('For_each_-_Microsoft_Graph_Audit_Logs')"
+                                            "@items('For_each_-_Entra_Audit_Logs')"
                                         ],
                                         "headers": {
-                                            "Authorization": "Bearer @{body('HTTP-_Authenticate_to_Microsoft_Graph_Audit_Logs_Data_Collection_Endpoint')?['access_token']}",
-                                            "Content-Length": "@{length(string(items('For_each_-_Microsoft_Graph_Audit_Logs')))}",
+                                            "Authorization": "Bearer @{body('HTTP-_Authenticate_to_Entra_AuditLogs_Data_Collection_Endpoint')?['access_token']}",
+                                            "Content-Length": "@{length(string(items('For_each_-_Entra_Audit_Logs')))}",
                                             "Content-Type": "application/json",
-                                            "Host": "[parameters('GraphAuditDCRHost')]"
+                                            "Host": "[parameters('EntraAuditLogsIngestionURL')]"
                                         },
                                         "method": "POST",
-                                        "uri": "[parameters('GraphAuditDCRURL')]"
+                                        "uri": "[concat(parameters('EntraAuditLogsIngestionURL'), '/dataCollectionRules/', parameters('EntraAuditLogsImmutableId'), '/streams/', parameters('EntraAuditLogsDataSource'), '?api-version=2023-01-01')]"
                                     },
                                     "runAfter": {},
                                     "type": "Http"
                                 }
                             },
-                            "foreach": "@body('HTTP_-_Get_Microsoft_Graph_Audit_Logs')?['value']",
+                            "foreach": "@body('HTTP_-_Get_Entra_Audit_Logs')?['value']",
                             "runAfter": {
-                                "HTTP-_Authenticate_to_Microsoft_Graph_Audit_Logs_Data_Collection_Endpoint": [
+                                "HTTP-_Authenticate_to_Entra_AuditLogs_Data_Collection_Endpoint": [
                                     "Succeeded"
                                 ]
                             },
                             "type": "Foreach"
                         },
-                        "For_each_-_Microsoft_Graph_Sign_in_Logs": {
+                        "For_each_-_Entra_Sign_in_Logs": {
                             "actions": {
-                                "HTTP_-_Send_Data_to_SignIn_Log_Data_Collection_Endpoint": {
+                                "HTTP_-_Send_Data_to_SignInLog_Data_Collection_Endpoint": {
                                     "inputs": {
                                         "body": [
-                                            "@items('For_each_-_Microsoft_Graph_Sign_in_Logs')"
+                                            "@items('For_each_-_Entra_Sign_in_Logs')"
                                         ],
                                         "headers": {
                                             "Authorization": "Bearer @{body('HTTP_-_Authenticate_to_SignInLogs_Data_Collection_Endpoint')?['access_token']}",
-                                            "Content-Length": "@{length(string(items('For_each_-_Microsoft_Graph_Sign_in_Logs')))}",
+                                            "Content-Length": "@{length(string(items('For_each_-_Entra_Sign_in_Logs')))}",
                                             "Content-Type": "application/json",
-                                            "Host": "[parameters('SignInDCRHost')]"
+                                            "Host": "[parameters('EntraSignInLogsIngestionURL')]"
                                         },
                                         "method": "POST",
-                                        "uri": "[parameters('SignInDCRURL')]"
+                                        "uri": "[concat(parameters('EntraSignInLogsIngestionURL'), '/dataCollectionRules/', parameters('EntraSignInLogsImmutableId'), '/streams/', parameters('EntraSignInLogsDataSource'), '?api-version=2023-01-01')]"
                                     },
                                     "runAfter": {},
                                     "type": "Http"
                                 }
                             },
-                            "foreach": "@body('HTTP_-_Get_Microsoft_Graph_Sign_In_Logs')?['value']",
+                            "foreach": "@body('HTTP_-_Get_Entra_SignIn_Logs')?['value']",
                             "runAfter": {
                                 "HTTP_-_Authenticate_to_SignInLogs_Data_Collection_Endpoint": [
                                     "Succeeded"
@@ -280,9 +286,9 @@
                             },
                             "type": "Foreach"
                         },
-                        "HTTP-_Authenticate_to_Microsoft_Graph_Audit_Logs_Data_Collection_Endpoint": {
+                        "HTTP-_Authenticate_to_Entra_AuditLogs_Data_Collection_Endpoint": {
                             "inputs": {
-                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('GraphAuditClientID'),'&client_secret=@{body(''Get_Graph_Audit_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
+                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
                                 "headers": {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 },
@@ -290,15 +296,15 @@
                                 "uri": "[concat('https://login.microsoftonline.com/', subscription().tenantId, '/oauth2/v2.0/token')]"
                             },
                             "runAfter": {
-                                "HTTP_-_Get_Microsoft_Graph_Audit_Logs": [
+                                "HTTP_-_Get_Entra_Audit_Logs": [
                                     "Succeeded"
                                 ]
                             },
                             "type": "Http"
                         },
-                        "HTTP_-_Authenticate_to_Office_Activity_Logs_Data_Collection_Endpoint": {
+                        "HTTP_-_Authenticate_to_OfficeActivityLogs_Data_Collection_Endpoint": {
                             "inputs": {
-                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('OfficeActivityClientID'),'&client_secret=@{body(''Get_Office_Activty_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
+                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
                                 "headers": {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 },
@@ -314,7 +320,7 @@
                         },
                         "HTTP_-_Authenticate_to_SignInLogs_Data_Collection_Endpoint": {
                             "inputs": {
-                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('GraphSignInClientID'),'&client_secret=@{body(''Get_Graph_Sign_In_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
+                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
                                 "headers": {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 },
@@ -322,19 +328,19 @@
                                 "uri": "[concat('https://login.microsoftonline.com/', subscription().tenantId, '/oauth2/v2.0/token')]"
                             },
                             "runAfter": {
-                                "HTTP_-_Get_Microsoft_Graph_Sign_In_Logs": [
+                                "HTTP_-_Get_Entra_SignIn_Logs": [
                                     "Succeeded"
                                 ]
                             },
                             "type": "Http"
                         },
-                        "HTTP_-_Get_Microsoft_Graph_Audit_Logs": {
+                        "HTTP_-_Get_Entra_Audit_Logs": {
                             "inputs": {
                                 "authentication": {
                                     "audience": "https://graph.microsoft.com",
-                                    "clientId": "[parameters('AppRegistrationClientID')]",
-                                    "secret": "@{body(''Get_App_Registration_Client_Secret'')?[''value'']}",
-                                    "tenant": "[subscription().tenantId]",
+                                    "clientId": "[parameters('SendingAppRegistrationClientID')]",
+                                    "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                    "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                     "type": "ActiveDirectoryOAuth"
                                 },
                                 "headers": {
@@ -345,19 +351,19 @@
                                 "uri": "https://graph.microsoft.com/v1.0/auditLogs/directoryAudits?$filter=activityDateTime ge @{addMinutes(variables('UTCNow'), -5)}"
                             },
                             "runAfter": {
-                                "Get_Graph_Sign_In_Client_Secret": [
+                                "Get_Receiving_App_Registration_Client_Secret": [
                                     "Succeeded"
                                 ]
                             },
                             "type": "Http"
                         },
-                        "HTTP_-_Get_Microsoft_Graph_Sign_In_Logs": {
+                        "HTTP_-_Get_Entra_SignIn_Logs": {
                             "inputs": {
                                 "authentication": {
                                     "audience": "https://graph.microsoft.com",
-                                    "clientId": "[parameters('AppRegistrationClientID')]",
-                                    "secret": "@{body(''Get_App_Registration_Client_Secret'')?[''value'']}",
-                                    "tenant": "[subscription().tenantId]",
+                                    "clientId": "[parameters('SendingAppRegistrationClientID')]",
+                                    "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                    "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                     "type": "ActiveDirectoryOAuth"
                                 },
                                 "headers": {
@@ -368,7 +374,7 @@
                                 "uri": "https://graph.microsoft.com/v1.0/auditLogs/signIns?$filter=createdDateTime ge @{addMinutes(variables('UTCNow'), -5)}"
                             },
                             "runAfter": {
-                                "For_each_-_Microsoft_Graph_Audit_Logs": [
+                                "For_each_-_Entra_Audit_Logs": [
                                     "Succeeded"
                                 ]
                             },
@@ -378,9 +384,9 @@
                             "inputs": {
                                 "authentication": {
                                     "audience": "https://manage.office.com",
-                                    "clientId": "[parameters('AppRegistrationClientID')]",
-                                    "secret": "@{body(''Get_App_Registration_Client_Secret'')?[''value'']}",
-                                    "tenant": "[subscription().tenantId]",
+                                    "clientId": "[parameters('SendingAppRegistrationClientID')]",
+                                    "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                    "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                     "type": "ActiveDirectoryOAuth"
                                 },
                                 "headers": {
@@ -391,7 +397,7 @@
                                 "uri": "[concat('https://manage.office.com/api/v1.0/', subscription().subscriptionId,'/activity/feed/subscriptions/content?contentType=Audit.AzureActiveDirectory&PublisherIdentifier=Microsoft?&startTime=@{addMinutes(variables(''UTCNow''), -5)}&endTime=@{variables(''UTCNow'')}')]"
                             },
                             "runAfter": {
-                                "For_each_-_Microsoft_Graph_Sign_in_Logs": [
+                                "For_each_-_Entra_Sign_in_Logs": [
                                     "Succeeded"
                                 ]
                             },
@@ -411,7 +417,7 @@
                             "runAfter": {},
                             "type": "InitializeVariable"
                         },
-                        "Get_App_Registration_Client_Secret": {
+                        "Get_Sending_App_Registration_Client_Secret": {
                             "runAfter": {
                                 "Initialize_variable_-_UTC_Now": [
                                     "Succeeded"
@@ -425,12 +431,12 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "[concat('/secrets/@{encodeURIComponent(''', parameters('AppRegistrationKeyVaultSecretName'), ''')}/value')]"
+                                "path": "[concat('/secrets/@{encodeURIComponent(''', parameters('SendingAppRegistrationKeyVaultSecretName'), ''')}/value')]"
                             }
                         },
-                        "Get_Graph_Audit_Client_Secret": {
+                        "Get_Receiving_App_Registration_Client_Secret": {
                             "runAfter": {
-                                "Get_App_Registration_Client_Secret": [
+                                "Get_Sending_App_Registration_Client_Secret": [
                                     "Succeeded"
                                 ]
                             },
@@ -442,41 +448,7 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "[concat('/secrets/@{encodeURIComponent(''', parameters('GraphAuditKeyVaultSecretName'), ''')}/value')]"
-                            }
-                        },
-                        "Get_Office_Activty_Client_Secret": {
-                            "runAfter": {
-                                "Get_Graph_Audit_Client_Secret": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "ApiConnection",
-                            "inputs": {
-                                "host": {
-                                    "connection": {
-                                        "name": "@parameters('$connections')['keyvault']['connectionId']"
-                                    }
-                                },
-                                "method": "get",
-                                "path": "[concat('/secrets/@{encodeURIComponent(''', parameters('OfficeActivtyKeyVaultSecretName'), ''')}/value')]"
-                            }
-                        },
-                        "Get_Graph_Sign_In_Client_Secret": {
-                            "runAfter": {
-                                "Get_Office_Activty_Client_Secret": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "ApiConnection",
-                            "inputs": {
-                                "host": {
-                                    "connection": {
-                                        "name": "@parameters('$connections')['keyvault']['connectionId']"
-                                    }
-                                },
-                                "method": "get",
-                                "path": "[concat('/secrets/@{encodeURIComponent(''', parameters('GraphSignInKeyVaultSecretName'), ''')}/value')]"
+                                "path": "[concat('/secrets/@{encodeURIComponent(''', parameters('ReceivingAppRegistrationKeyVaultSecretName'), ''')}/value')]"
                             }
                         }
                     },
