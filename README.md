@@ -43,7 +43,7 @@ Enter "**AS-Microsoft-DCR-Log-Ingestion**" for the name, and select "**Accounts 
 
 ![DCRLogIngestion_App_Registration_2](Images/DCRLogIngestion_App_Registration_2.png)
 
-Once the app registration is created, you will be redirected to the "**Overview**" page. Under the "**Essentials**" section, take note of the "**Application (client) ID**", as this will be needed for deployment.
+Once the app registration is created, you will be redirected to the "**Overview**" page. Under the "**Essentials**" section, take note of the "**Application (client) ID**" and the "**Directory (tenant) ID**", as both will be needed for deployment.
 
 ![DCRLogIngestion_App_Registration_3](Images/DCRLogIngestion_App_Registration_3.png)
 
@@ -123,6 +123,11 @@ Repeat this process for "**OfficeActivityLogsDCE**".
 
 ![DCRLogIngestion_Data_Collection_Endpoint_5](Images/DCRLogIngestion_Data_Collection_Endpoint_5.png)
 
+From each of the created Data Collection Endpoint overview pages, take note of the "**Logs Ingestion**" URLs, as they will be needed for deployment.
+
+![DCRLogIngestion_Data_Collection_Endpoint_6](Images/DCRLogIngestion_Data_Collection_Endpoint_6.png)
+
+
 #### Create the Data Collection Rules
 
 From the tenant you wish to send the data to, navigate to the Microsoft Log Analytics Workspace page: https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces
@@ -178,6 +183,15 @@ Upload the file content located at [Samples/OfficeActivityLogsSample.json](https
 Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_13](Images/DCRLogIngestion_Data_Collection_Rule_13.png)
+
+From each of the created Data Collection Rule overview pages, take note of the "**Immutable Id**" values, as they will be needed for deployment.
+
+![DCRLogIngestion_Data_Collection_Rule_14](Images/DCRLogIngestion_Data_Collection_Rule_14.png)
+
+Lastly, from each of the created Data Collection Rule data sources pages, take note of the "**Data source**" values, as they will be needed for deployment.
+
+![DCRLogIngestion_Data_Collection_Rule_15](Images/DCRLogIngestion_Data_Collection_Rule_15.png)
+
 
 #### Create an App Registration for the DCRs
 
