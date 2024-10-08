@@ -39,7 +39,7 @@ Click "**New registration**".
 
 ![DCRLogIngestion_App_Registration_1](Images/DCRLogIngestion_App_Registration_1.png)
 
-Enter "**AS-Microsoft-DCR-Log-Ingestion**" for the name, and select "**Accounts in any organizational directory**" for "**Supported account types**. All else can be left as is. Click "**Register**"
+Enter "**AS-Microsoft-DCR-Log-Ingestion**" for the name and select "**Accounts in any organizational directory**" for "**Supported account types**. All else can be left as is. Click "**Register**"
 
 ![DCRLogIngestion_App_Registration_2](Images/DCRLogIngestion_App_Registration_2.png)
 
@@ -127,7 +127,6 @@ From each of the created Data Collection Endpoint overview pages, take note of t
 
 ![DCRLogIngestion_Data_Collection_Endpoint_6](Images/DCRLogIngestion_Data_Collection_Endpoint_6.png)
 
-
 #### Create the Data Collection Rules
 
 From the tenant you wish to send the data to, navigate to the Microsoft Log Analytics Workspace page: https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces
@@ -144,7 +143,7 @@ First, click "**Create a new Data Collection Rule**" below the Data Collection R
 
 ![DCRLogIngestion_Data_Collection_Rule_3](Images/DCRLogIngestion_Data_Collection_Rule_3.png)
 
-Next enter "**EntraSignInLogs**" as the table name and select "**EntraSignInLogsDCE**" from the drop down list. If this option is not populating, double check the region used for the Data Collection Endpoint created in the previous step. Click "**Next**".
+Next enter "**EntraSignInLogs**" as the table name and select "**EntraSignInLogsDCE**" from the drop-down list. If this option is not populating, double check the region used for the Data Collection Endpoint created in the previous step. Click "**Next**".
 
 ![DCRLogIngestion_Data_Collection_Rule_4](Images/DCRLogIngestion_Data_Collection_Rule_4.png)
 
@@ -160,7 +159,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_7](Images/DCRLogIngestion_Data_Collection_Rule_7.png)
 
-This process will need to be repeated for "**EntraAuditLogsDCR**". After creating the "**EntraAuditLogsDCR**" Data Collection Rule in the way that was shown for "**EntraSignInLogsDCR**", enter "**EntraAuditLogs**" as the table name and select "**EntraAuditLogsDCE**" from the drop down list.
+This process will need to be repeated for "**EntraAuditLogsDCR**". After creating the "**EntraAuditLogsDCR**" Data Collection Rule in the way that was shown for "**EntraSignInLogsDCR**", enter "**EntraAuditLogs**" as the table name and select "**EntraAuditLogsDCE**" from the drop-down list.
 
 ![DCRLogIngestion_Data_Collection_Rule_8](Images/DCRLogIngestion_Data_Collection_Rule_8.png)
 
@@ -191,7 +190,6 @@ From each of the created Data Collection Rule overview pages, take note of the "
 Lastly, from each of the created Data Collection Rule data sources pages, take note of the "**Data source**" values, as they will be needed for deployment.
 
 ![DCRLogIngestion_Data_Collection_Rule_15](Images/DCRLogIngestion_Data_Collection_Rule_15.png)
-
 
 #### Create an App Registration for the DCRs
 
@@ -243,7 +241,6 @@ Lastly, repeat this process for "**OfficeActivityLogsDCR**".
 
 ![DCRLogIngestion_App_Registration_DCR_11](Images/DCRLogIngestion_App_Registration_DCR_11.png)
 
-
 #### Create a Receiving App Registration Azure Key Vault Secret
 
 As before, secret from the previous step will need to be stored in the tenant you wish to send the data to. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
@@ -259,7 +256,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSe
 Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
 
 ![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Receiving_Key_Vault_3.png)
-
 
 #
 ### Deployment
@@ -283,11 +279,35 @@ In the **Instance Details** section:
 
 * **Playbook Name**: This can be left as "**AS-Microsoft-DCR-Log-Ingestion**" or you may change it.
 
-* **Client ID**: Enter the Application (client) ID of your app registration referenced in [Create an App Registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration).
+* **Sending App Registration Tenant Id**: Enter the Directory (tenant) Id of the App Registration that will be used to send data, referenced in [Create an App Registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration).
+
+* **Sending App Registration Client Id**: Enter the Application (client) ID of the App Registration that will be used to send data, referenced in [Create an App Registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration).
+
+* **Receiving App Registration Client Id**: Enter the Application (client) ID of the App Registration that will be used to receive data, referenced in [Create an App Registration for the DCRs](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-for-the-dcrs).
 
 * **Key Vault Name**: Enter the name of the key vault referenced in [Create an Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret).
 
-* **Key Vault Secret Name**: Enter the name of the key vault Secret created in [Create an Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret).
+* **Sending App Registration Key Vault Secret Name**: Name of Key Vault Secret that contains the sending App Registration client secret, created in [Create an App Registration Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret).
+
+* **Receiving App Registration Key Vault Secret Name**: Name of Key Vault Secret that contains the receiving App Registration client secret, created in [Create a Receiving App Registration Azure Key Vault Secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-a-receiving-app-registration-azure-key-vault-secret).
+
+* **Entra Sign In Logs Ingestion URL**: Enter the Logs Ingestion URL from the EntraSignInLogs DCE, referenced in [Create the Data Collection Endpoints](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints).
+
+* **Entra Sign In Logs Immutable Id**: Enter the Logs Ingestion Immutable Id from the EntraSignInLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+
+* **Entra Sign In Logs Data Source**: Enter the Logs Ingestion Data Source from the EntraSignInLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+
+* **Entra Audit Logs Ingestion URL**: Enter the Logs Ingestion URL from the EntraAuditLogs DCE, referenced in [Create the Data Collection Endpoints](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints).
+
+* **Entra Audit Logs Immutable Id**: Enter the Logs Ingestion Immutable Id from the EntraAuditLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+
+* **Entra Audit Logs Data Source**: Enter the Logs Ingestion Data Source from the EntraAuditLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+
+* **Office Activity Ingestion URL**: Enter the Logs Ingestion URL from the OfficeActivityLogs DCE, referenced in [Create the Data Collection Endpoints](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints).
+
+* **Office Activty Immutable Id**: Enter the Logs Ingestion Immutable Id from the OfficeActivityLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+
+* **Office Activty Data Source**: Enter the Logs Ingestion Data Source from the OfficeActivityLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
 
 Towards the bottom, click on "**Review + create**". 
 
