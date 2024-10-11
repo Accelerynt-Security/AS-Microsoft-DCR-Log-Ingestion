@@ -50,13 +50,13 @@
         "SendingAppRegistrationKeyVaultSecretName": {
             "type": "string",
             "metadata": {
-                "description": "Name of Key Vault Secret that contains the App Registration client secret"
+                "description": "Name of Key Vault Secret that contains the sending App Registration client secret"
             }
         },
         "ReceivingAppRegistrationKeyVaultSecretName": {
             "type": "string",
             "metadata": {
-                "description": "Name of Key Vault Secret that contains the App Registration client secret"
+                "description": "Name of Key Vault Secret that contains the receiving App Registration client secret"
             }
         },
         "EntraSignInLogsIngestionURL": {
@@ -211,7 +211,7 @@
                                         "authentication": {
                                             "audience": "https://manage.office.com",
                                             "clientId": "[parameters('SendingAppRegistrationClientID')]",
-                                            "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                            "secret": "@{body('Get_Sending_App_Registration_Client_Secret')?['value']}",
                                             "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                             "type": "ActiveDirectoryOAuth"
                                         },
@@ -288,7 +288,7 @@
                         },
                         "HTTP-_Authenticate_to_Entra_AuditLogs_Data_Collection_Endpoint": {
                             "inputs": {
-                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
+                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https://monitor.azure.com/.default')]",
                                 "headers": {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 },
@@ -304,7 +304,7 @@
                         },
                         "HTTP_-_Authenticate_to_OfficeActivityLogs_Data_Collection_Endpoint": {
                             "inputs": {
-                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
+                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https://monitor.azure.com/.default')]",
                                 "headers": {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 },
@@ -320,7 +320,7 @@
                         },
                         "HTTP_-_Authenticate_to_SignInLogs_Data_Collection_Endpoint": {
                             "inputs": {
-                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default')]",
+                                "body": "[concat('grant_type=client_credentials&client_id=', parameters('ReceivingAppRegistrationClientID'),'&client_secret=@{body(''Get_Receiving_App_Registration_Client_Secret'')?[''value'']}&scope=https://monitor.azure.com/.default')]",
                                 "headers": {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 },
@@ -339,7 +339,7 @@
                                 "authentication": {
                                     "audience": "https://graph.microsoft.com",
                                     "clientId": "[parameters('SendingAppRegistrationClientID')]",
-                                    "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                    "secret": "@{body('Get_Sending_App_Registration_Client_Secret')?['value']}",
                                     "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                     "type": "ActiveDirectoryOAuth"
                                 },
@@ -362,7 +362,7 @@
                                 "authentication": {
                                     "audience": "https://graph.microsoft.com",
                                     "clientId": "[parameters('SendingAppRegistrationClientID')]",
-                                    "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                    "secret": "@{body('Get_Sending_App_Registration_Client_Secret')?['value']}",
                                     "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                     "type": "ActiveDirectoryOAuth"
                                 },
@@ -385,7 +385,7 @@
                                 "authentication": {
                                     "audience": "https://manage.office.com",
                                     "clientId": "[parameters('SendingAppRegistrationClientID')]",
-                                    "secret": "@{body(''Get_Sending_App_Registration_Client_Secret'')?[''value'']}",
+                                    "secret": "@{body('Get_Sending_App_Registration_Client_Secret')?['value']}",
                                     "tenant": "[parameters('SendingAppRegistrationTenantId')]",
                                     "type": "ActiveDirectoryOAuth"
                                 },
