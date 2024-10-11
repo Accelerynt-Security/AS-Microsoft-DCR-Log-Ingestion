@@ -7,7 +7,7 @@ For any technical questions, please contact info@accelerynt.com
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAccelerynt-Security%2FAS-Microsoft-DCR-Log-Ingestion%2Fmain%2Fazuredeploy.json)
 [![Deploy to Azure Gov](https://aka.ms/deploytoazuregovbutton)](https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAccelerynt-Security%2FAS-Microsoft-DCR-Log-Ingestion%2Fmain%2Fazuredeploy.json)       
 
-This playbook is designed to run on a timed trigger and pull Microsoft Graph and Microsoft Office logs to Microsoft Sentinel using Data Collection Endpoints and Data Collection Rules. While Microsoft does have built in connectors for this, they do not support multitenant functionality. This playbook is intended for multitenant organizations struggling with this limitation. This playbook is configured to grab the following logs for a tenant of your choosing:
+This playbook is intended for multitenant organizations and is designed to run on a timed trigger and pull Microsoft Graph and Microsoft Office logs to Microsoft Sentinel using Data Collection Endpoints and Data Collection Rules. While Microsoft does have built in connectors for this, they do not support multitenant functionality. This playbook is configured to grab the following logs for a tenant of your choosing and send them to another tenant:
 * [Microsoft Graph Sign-In Logs](https://learn.microsoft.com/en-us/graph/api/signin-get?view=graph-rest-1.0&tabs=http)
 * [Microsoft Graph Audit Logs](https://learn.microsoft.com/en-us/graph/api/directoryaudit-get?view=graph-rest-1.0&tabs=http)
 * [Microsoft Office Activity Logs](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference). 
@@ -21,8 +21,9 @@ This playbook is designed to run on a timed trigger and pull Microsoft Graph and
                                                                                                                                      
 The following items are required under the template settings during deployment: 
 
-* A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**" 
-* An [App Registration Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secret
+* A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) to send data to the DCR with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**"
+* A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) in the receiving tenant where the DCR is located. This app registration must have the "**Monitoring Metrics Publisher**" role assigned from each DCR you create.
+* [App Registration Azure key vault secrets](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secrets
 * Note your [workspace location](https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces) for the tenant that will be receiving data, as this will need to be the same for Data Collection Rules and Endpoints created in the steps below
 * A [Microsoft Data Collection Endpoint](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints) for each of the log sources
 * A [Microsoft Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
@@ -39,7 +40,7 @@ Click "**New registration**".
 
 ![DCRLogIngestion_App_Registration_1](Images/DCRLogIngestion_App_Registration_1.png)
 
-Enter "**AS-Microsoft-DCR-Log-Ingestion**" for the name and select "**Accounts in any organizational directory**" for "**Supported account types**. All else can be left as is. Click "**Register**"
+Enter "**AS-Send-Logs-to-DCR**" for the name and select "**Accounts in any organizational directory**" for "**Supported account types**. All else can be left as is. Click "**Register**"
 
 ![DCRLogIngestion_App_Registration_2](Images/DCRLogIngestion_App_Registration_2.png)
 
@@ -221,7 +222,7 @@ Select the "**EntraSignInLogsDCR**" and select "**Access control (IAM)**". Click
 
 ![DCRLogIngestion_App_Registration_DCR_6](Images/DCRLogIngestion_App_Registration_DCR_6.png)
 
-Select "**Log Analytics Contributor**" and click "**Next**".
+Select "**Monitoring Metrics Publisher**" and click "**Next**".
 
 ![DCRLogIngestion_App_Registration_DCR_7](Images/DCRLogIngestion_App_Registration_DCR_7.png)
 
@@ -335,7 +336,7 @@ Select the "**Get**" checkbox under "**Secret permissions**", then click "**Next
 
 ![DCRLogIngestion_Key_Vault_Access_2](Images/DCRLogIngestion_Key_Vault_Access_2.png)
 
-Paste "**AS-Microsoft-DCR-Log-Ingestion**" into the principal search box and click the option that appears. If the app registration also appears, select the option that does **not** match the Application (client) ID of your app registration. Click "**Next**" towards the bottom of the page.
+Paste "**AS-Send-Logs-to-DCR**" into the principal search box and click the option that appears. If the app registration also appears, select the option that does **not** match the Application (client) ID of your app registration. Click "**Next**" towards the bottom of the page.
 
 ![DCRLogIngestion_Key_Vault_Access_3](Images/DCRLogIngestion_Key_Vault_Access_3.png)
 
