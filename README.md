@@ -226,7 +226,7 @@ Select "**Monitoring Metrics Publisher**" and click "**Next**".
 
 ![DCRLogIngestion_App_Registration_DCR_7](Images/DCRLogIngestion_App_Registration_DCR_7.png)
 
-Select "**User, group, or service principal**" as the access option, then click "**Select members**". Past "**DCRLogIngestionAppReg**" into the search bar at the top of the right pane and select the app registration that appears, then click "**Select**".
+Select "**User, group, or service principal**" as the access option, then click "**Select members**". Paste "**DCRLogIngestionAppReg**" into the search bar at the top of the right pane and select the app registration that appears, then click "**Select**".
 
 ![DCRLogIngestion_App_Registration_DCR_8](Images/DCRLogIngestion_App_Registration_DCR_8.png)
 
