@@ -34,7 +34,7 @@ The following items are required under the template settings during deployment:
 
 #### Create an App Registration
 
-From the tenant you wish to send the Microsoft Graph and Office data from, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+From the tenant you wish to send the Microsoft Graph and Office data **from**, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
 
 Click "**New registration**".
 
@@ -86,13 +86,13 @@ Copy the value of the secret that is generated, as this will be needed for [Crea
 
 #### Create an App Registration Azure Key Vault Secret
 
-The secret from the previous step will need to be stored in the tenant you wish to send the data to, as this is where the logic app will be deployed. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
+The secret from the previous step will need to be stored in the tenant you wish to send the data **to**, as this is where the logic app will be deployed. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
 
 Navigate to an existing key vault or create a new one. From the key vault overview page, click the "**Secrets**" menu option, found under the "**Settings**" section. Click "**Generate/Import**".
 
 ![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Key_Vault_1.png)
 
-Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
+Choose a name for the secret, such as "**DCRLogIngestion-SendingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
 
