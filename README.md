@@ -34,7 +34,7 @@ The following items are required under the template settings during deployment:
 
 #### Create an App Registration
 
-From the tenant you wish to send the Microsoft Graph and Office data **from**, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+From the tenant you wish to **send the Microsoft Graph and Office data from**, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
 
 Click "**New registration**".
 
@@ -86,13 +86,13 @@ Copy the value of the secret that is generated, as this will be needed for [Crea
 
 #### Create an App Registration Azure Key Vault Secret
 
-The secret from the previous step will need to be stored in the tenant you wish to send the data **to**, as this is where the logic app will be deployed. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
+The secret from the previous step will need to be stored in the **tenant that is to receive the data**, as this is where the logic app will be deployed. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
 
 Navigate to an existing key vault or create a new one. From the key vault overview page, click the "**Secrets**" menu option, found under the "**Settings**" section. Click "**Generate/Import**".
 
 ![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Key_Vault_1.png)
 
-Choose a name for the secret, such as "**DCRLogIngestion-SendingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
+Choose a name for the secret, such as "**DCRLogIngestion-SendingAppRegClientSecret**", taking note of the value used, as it will be needed for deployment. Next enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
 
@@ -102,7 +102,7 @@ Once your secret has been added to the vault, navigate to the "**Access policies
 
 #### Create the Data Collection Endpoints
 
-From the tenant you wish to send the data **to**, navigate to the Microsoft Data Collection Endpoints page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionendpoints
+From the **tenant that is to receive the data**, navigate to the Microsoft Data Collection Endpoints page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionendpoints
 
 Click "**Create**".
 
@@ -130,7 +130,7 @@ From each of the created Data Collection Endpoint overview pages, take note of t
 
 #### Create the Data Collection Rules
 
-From the tenant you wish to send the data **to**, navigate to the Microsoft Log Analytics Workspace page: https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces
+From the **tenant that is to receive the data**, navigate to the Microsoft Log Analytics Workspace page: https://portal.azure.com/#browse/Microsoft.OperationalInsights%2Fworkspaces
 
 Select the desired workspace.
 
@@ -194,7 +194,7 @@ Lastly, from each of the created Data Collection Rule data sources pages, take n
 
 #### Create an App Registration for the DCRs
 
-From the tenant you wish to send the Microsoft Graph and Office data **to**, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+From the **tenant that is to receive the data**, navigate to the Microsoft Azure Active Directory app registration page: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
 
 Click "**New registration**".
 
@@ -244,13 +244,13 @@ Lastly, repeat this process for "**OfficeActivityLogsDCR**".
 
 #### Create a Receiving App Registration Azure Key Vault Secret
 
-As before, secret from the previous step will need to be stored in the tenant you wish to send the data **to**. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
+As before, secret from the previous step will need to be stored in the **tenant that is to receive the data**. Navigate to the Azure key vaults page: https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.KeyVault%2Fvaults
 
 Navigate to an existing key vault or create a new one. From the key vault overview page, click the "**Secrets**" menu option, found under the "**Settings**" section. Click "**Generate/Import**".
 
 ![DCRLogIngestion_Key_Vault_1](Images/DCRLogIngestion_Receiving_Key_Vault_1.png)
 
-Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSecret**", and enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
+Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSecret**", taking note of the value used, as it will be needed for deployment. Next enter the client secret copied in the [previous section](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration). All other settings can be left as is. Click "**Create**". 
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Receiving_Key_Vault_2.png)
 
@@ -263,7 +263,7 @@ Once your secret has been added to the vault, navigate to the "**Access policies
 
 To configure and deploy this playbook:
  
-Open your browser and ensure you are logged into your Microsoft Sentinel workspace you wish to seend the data **to**. In a separate tab, open the link to our playbook on the Accelerynt Security GitHub repository:
+Open your browser and ensure you are logged into your Microsoft Sentinel workspace from the **tenant that is to receive the data**. In a separate tab, open the link to our playbook on the Accelerynt Security GitHub repository:
 
 https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion
 
@@ -326,7 +326,7 @@ Click the one corresponding to the Logic App.
 #
 ### Granting Access to Azure Key Vault
 
-Before the Logic App can run successfully, the key vault connection created during deployment must be granted access to the key vault storing your app registration client secret.
+Before the Logic App can run successfully, the key vault connection created during deployment must be granted access to the key vault storing your app registration client secrets, located in the **tenant that is to receive the data**.
 
 From the key vault "**Access policies**" page in the tenant receiving the data, click "**Create**".
 
