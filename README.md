@@ -21,6 +21,7 @@ This playbook is intended for multitenant organizations and is designed to run o
                                                                                                                                      
 The following items are required under the template settings during deployment: 
 
+* Note your [subscription ID](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV2) for the tenant that will be sending the data
 * A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) to send data to the DCR with admin consent granted for "**AuditLog.Read.All**" and "**Activity.Feed.Read**"
 * A Microsoft Entra [app registration](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration) in the receiving tenant where the DCR is located. This app registration must have the "**Monitoring Metrics Publisher**" role assigned from each DCR you create.
 * [App Registration Azure key vault secrets](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-app-registration-azure-key-vault-secret) containing your app registration client secrets
