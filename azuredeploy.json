@@ -35,6 +35,12 @@
                 "description" : "Enter the Application (client) ID of the App Registration that will be used to send data"
             }
         },
+        "ReceivingTenantSubscriptionID": {
+            "type": "string",
+            "metadata" : {
+                "description" : "Enter the subscription ID for the tenant that will receive the data"
+            }
+        },
         "ReceivingAppRegistrationClientID": {
             "type": "string",
             "metadata" : {
@@ -394,7 +400,7 @@
                                     "Content-Type": "application/json"
                                 },
                                 "method": "GET",
-                                "uri": "[concat('https://manage.office.com/api/v1.0/', subscription().subscriptionId,'/activity/feed/subscriptions/content?contentType=Audit.AzureActiveDirectory&PublisherIdentifier=Microsoft?&startTime=@{addMinutes(variables(''UTCNow''), -5)}&endTime=@{variables(''UTCNow'')}')]"
+                                "uri": "[concat('https://manage.office.com/api/v1.0/', parameters('ReceivingTenantSubscriptionID'),'/activity/feed/subscriptions/content?contentType=Audit.AzureActiveDirectory&PublisherIdentifier=Microsoft?&startTime=@{addMinutes(variables(''UTCNow''), -5)}&endTime=@{variables(''UTCNow'')}')]"
                             },
                             "runAfter": {
                                 "For_each_-_Entra_Sign_in_Logs": [
