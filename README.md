@@ -329,18 +329,13 @@ Click the one corresponding to the Logic App.
 
 Before the Logic App can run successfully, the key vault connection created during deployment must be granted access to the key vault storing your app registration client secrets, located in the **tenant that is to receive the data**.
 
-From the key vault "**Access policies**" page in the tenant receiving the data, click "**Create**".
+From the Logic App menu blade, select the "**Identity**" tab, located under the "**Settings**" section. Click "**Azure role assignments**".
 
 ![DCRLogIngestion_Key_Vault_Access_1](Images/DCRLogIngestion_Key_Vault_Access_1.png)
 
-Select the "**Get**" checkbox under "**Secret permissions**", then click "**Next**".
+Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault Name, then select "**Keyvault secret user**" for the role. Click "**Save**".
 
-![DCRLogIngestion_Key_Vault_Access_2](Images/DCRLogIngestion_Key_Vault_Access_2.png)
+#
+### Solving the "InvalidAudience" Error Code Issue
 
-Paste "**AS-Send-Logs-to-DCR**" into the principal search box and click the option that appears. If the app registration also appears, select the option that does **not** match the Application (client) ID of your app registration. Click "**Next**" towards the bottom of the page.
-
-![DCRLogIngestion_Key_Vault_Access_3](Images/DCRLogIngestion_Key_Vault_Access_3.png)
-
-Navigate to the "**Review + create**" section and click "**Create**".
-
-![DCRLogIngestion_Key_Vault_Access_4](Images/DCRLogIngestion_Key_Vault_Access_4.png)
+If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**InvalidAudience**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window).
