@@ -97,9 +97,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-SendingAppRegClientSecr
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
 
-Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
-
-![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Key_Vault_3.png)
 
 #### Create the Data Collection Endpoints
 
@@ -255,9 +252,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSe
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Receiving_Key_Vault_2.png)
 
-Once your secret has been added to the vault, navigate to the "**Access policies**" menu option. Leave this page open, as you will need to return to it once the playbook has been deployed. See [Granting Access to Azure Key Vault](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#granting-access-to-azure-key-vault).
-
-![DCRLogIngestion_Key_Vault_3](Images/DCRLogIngestion_Receiving_Key_Vault_3.png)
 
 #
 ### Deployment
@@ -338,4 +332,4 @@ Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault 
 #
 ### Solving the "InvalidAudience" Error Code Issue
 
-If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**InvalidAudience**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window).
+If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**InvalidAudience**", you can resolve this issue bny running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window).
