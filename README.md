@@ -97,7 +97,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-SendingAppRegClientSecr
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Key_Vault_2.png)
 
-
 #### Create the Data Collection Endpoints
 
 From the **tenant that is to receive the data**, navigate to the Microsoft Data Collection Endpoints page: https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionendpoints
@@ -252,7 +251,6 @@ Choose a name for the secret, such as "**DCRLogIngestion-ReceivingAppRegClientSe
 
 ![DCRLogIngestion_Key_Vault_2](Images/DCRLogIngestion_Receiving_Key_Vault_2.png)
 
-
 #
 ### Deployment
 
@@ -303,9 +301,9 @@ In the **Instance Details** section:
 
 * **Office Activity Ingestion URL**: Enter the Logs Ingestion URL from the OfficeActivityLogs DCE, referenced in [Create the Data Collection Endpoints](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-endpoints).
 
-* **Office Activty Immutable Id**: Enter the Logs Ingestion Immutable Id from the OfficeActivityLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+* **Office Activity Immutable Id**: Enter the Logs Ingestion Immutable Id from the OfficeActivityLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
 
-* **Office Activty Data Source**: Enter the Logs Ingestion Data Source from the OfficeActivityLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
+* **Office Activity Data Source**: Enter the Logs Ingestion Data Source from the OfficeActivityLogs DCR, referenced in [Create the Data Collection Rules](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules).
 
 Towards the bottom, click on "**Review + create**". 
 
@@ -329,9 +327,11 @@ From the Logic App menu blade, select the "**Identity**" tab, located under the 
 
 ![DCRLogIngestion_Key_Vault_Access_1](Images/DCRLogIngestion_Key_Vault_Access_1.png)
 
-Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault Name, then select "**Keyvault secret user**" for the role. Click "**Save**".
+Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault Name, then select "**Key Vault Secrets User**" for the role. Click "**Save**".
+
+![DCRLogIngestion_Key_Vault_Access_2](Images/DCRLogIngestion_Key_Vault_Access_2.png)
 
 #
 ### Solving the "InvalidAudience" Error Code Issue
 
-If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**InvalidAudience**", you can resolve this issue bny running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window).
+If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**InvalidAudience**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window). Copy and paste the script into a Azure Cloud Shell Powershell window and hit enter. You will be prompted to enter your **sending** tenant, as well as the **sending** app registration client ID and client secret.
