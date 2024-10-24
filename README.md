@@ -30,6 +30,14 @@ The following items are required under the template settings during deployment:
 * A [Microsoft Data Collection Rule](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-the-data-collection-rules) for each of the log sources
 * An [Azure key vault secret](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion#create-an-azure-key-vault-secret) containing your client secret for each of your Data Collection Endpoints
 
+#
+### Role Requirements
+
+The following permissions are required for the user that will be performing the setup and deployment steps: 
+
+* In order to create and manage secrets within the desired Key Vault, the **Keyvault Secrets Officer** role will need to be assigned to the user from the Key Vault Access control (IAM) page.
+* In order to add role assignments to DCRs, the **User Access Admin** role will need to be assigned to the user from Entra ID.
+
 # 
 ### Setup
 
@@ -332,6 +340,16 @@ Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault 
 ![DCRLogIngestion_Key_Vault_Access_2](Images/DCRLogIngestion_Key_Vault_Access_2.png)
 
 #
-### Solving the "InvalidAudience" Error Code Issue
+### Solving the "Subscription Disabled" Error Code Issue
 
-If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**InvalidAudience**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window). Copy and paste the script into a Azure Cloud Shell Powershell window and hit enter. You will be prompted to enter your **sending** tenant, as well as the **sending** app registration client ID and client secret.
+If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**Subscription Disabled**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window) from the tenant you wish to **send the Microsoft Graph and Office data from**.
+
+![DCRLogIngestion_Azure_Cloud_Shell_1](Images/DCRLogIngestion_Azure_Cloud_Shell_1.png)
+
+Click the "**PowerShell**" option, then select the appropriate subcription for the sending tenant.
+
+![DCRLogIngestion_Azure_Cloud_Shell_2](Images/DCRLogIngestion_Azure_Cloud_Shell_2.png)
+
+Copy and paste the script into the Azure Cloud Shell PowerShell window and hit enter. You will be prompted to enter your **sending** tenant, as well as the **sending** app registration client ID and client secret.
+
+![DCRLogIngestion_Azure_Cloud_Shell_3](Images/DCRLogIngestion_Azure_Cloud_Shell_3.png)
