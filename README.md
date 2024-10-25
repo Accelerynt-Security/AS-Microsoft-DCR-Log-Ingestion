@@ -33,7 +33,7 @@ The following items are required under the template settings during deployment:
 #
 ### Role Requirements
 
-The following permissions are required for the user that will be performing the setup and deployment steps: 
+The following permissions are required in the receiving tenant for the user that will be performing the setup and deployment steps: 
 
 * In order to create and manage secrets within the desired Key Vault, the **Keyvault Secrets Officer** role will need to be assigned to the user from the Key Vault Access control (IAM) page.
 * In order to add role assignments to DCRs, the **User Access Admin** role will need to be assigned to the user from Entra ID.
@@ -342,7 +342,7 @@ Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault 
 #
 ### Solving the "Subscription Disabled" Error Code Issue
 
-If your playbook is still unable to run unsuccessfully, and is failing on the "**HTTP - Send Data to Office Activity Logs Data Collection Endpoint**" step with the error: "**Subscription Disabled**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window) from the tenant you wish to **send the Microsoft Graph and Office data from**.
+If your playbook is still unable to run successfully, and is failing on the "**HTTP - Get O365 Audit General Logs**" step with the error: "**Subscription Disabled**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window) from the tenant you wish to **send the Microsoft Graph and Office data from**.
 
 ![DCRLogIngestion_Azure_Cloud_Shell_1](Images/DCRLogIngestion_Azure_Cloud_Shell_1.png)
 
