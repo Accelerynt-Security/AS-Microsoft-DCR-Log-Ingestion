@@ -33,6 +33,10 @@ The following items are required under the template settings during deployment:
 #
 ### Role Requirements
 
+The following permissions are required in the **sending tenant** for the user that will be performing the setup and deployment steps: 
+
+* The **Privileged Role Administrator** role will need to be assigned to the user from Entra ID.
+
 The following permissions are required in the **receiving tenant** for the user that will be performing the setup and deployment steps: 
 
 * In order to create and manage secrets within the desired Key Vault, the **Keyvault Secrets Officer** role will need to be assigned to the user from the Key Vault Access control (IAM) page.
