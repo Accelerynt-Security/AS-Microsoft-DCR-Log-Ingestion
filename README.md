@@ -193,7 +193,7 @@ Click "**Create**".
 
 ![DCRLogIngestion_Data_Collection_Rule_13](Images/DCRLogIngestion_Data_Collection_Rule_13.png)
 
-From each of the created Data Collection Rule overview pages, take note of the "**Immutable Id**" values, as they will be needed for deployment.
+From each of the created [Data Collection Rule overview pages](https://portal.azure.com/#browse/microsoft.insights%2Fdatacollectionrules), take note of the "**Immutable Id**" values, as they will be needed for deployment.
 
 ![DCRLogIngestion_Data_Collection_Rule_14](Images/DCRLogIngestion_Data_Collection_Rule_14.png)
 
