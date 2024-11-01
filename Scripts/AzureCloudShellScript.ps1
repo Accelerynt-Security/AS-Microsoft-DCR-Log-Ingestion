@@ -1,7 +1,7 @@
 # Prompt for tenantId, clientId, and clientSecret
 $tenantId = Read-Host -Prompt "Enter Tenant ID"
 $clientId = Read-Host -Prompt "Enter Client ID"
-$clientSecret = Read-Host -Prompt "Enter Client Secret"
+$clientSecret = Read-Host -Prompt "Enter Client Secret Value"
 
 # Get an OAuth token for the API
 $body = @{
