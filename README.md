@@ -16,6 +16,12 @@ This playbook is intended for multitenant organizations and is designed to run o
 
 ![DCRLogIngestion_Demo_2](Images/DCRLogIngestion_Demo_2.png)
 
+> [!NOTE]  
+> Estimated Time to Complete: 3 hours
+
+> [!TIP]
+> Required deployment variables will be noted throughout the setup. It is recommended that you look at the deployment page and fill out the required fields as you go.
+
 #
 ### Requirements
                                                                                                                                      
@@ -33,14 +39,17 @@ The following items are required under the template settings during deployment:
 #
 ### Role Requirements
 
-The following permissions are required in the **sending tenant** for the user that will be performing the setup and deployment steps: 
+If the user that will be performing the setup and deployment steps does not have "**Owner**" or "**Global Administrator**" assigned in both tenants, the following roles may be required:
+
+The following roles are required in the **sending tenant**: 
 
 * The **Privileged Role Administrator** role will need to be assigned to the user from Entra ID.
+* By default, any user can create an app registration, however, if this has been locked down, the "**Application Administrator**" role will need to be assigned from Entra ID.
 
-The following permissions are required in the **receiving tenant** for the user that will be performing the setup and deployment steps: 
+The following roles are required in the **receiving tenant**: 
 
 * In order to create and manage secrets within the desired Key Vault, the **Key Vault Secrets Officer** role will need to be assigned to the user from the Key Vault Access control (IAM) page.
-* In order to add role assignments to DCRs, the **User Access Admin** role will need to be assigned to the user from Entra ID.
+* In order to add role assignments to DCRs, the **User Access Admin** and "**Contributor**" roles will need to be assigned to the user from the resource group.
 
 # 
 ### Setup
@@ -339,21 +348,28 @@ From the Logic App menu blade, select the "**Identity**" tab, located under the 
 
 ![DCRLogIngestion_Key_Vault_Access_1](Images/DCRLogIngestion_Key_Vault_Access_1.png)
 
-Click "**Add**" then select "**Key Vault**" as the scope, select your Key Vault Name, then select "**Key Vault Secrets User**" for the role. Click "**Save**".
+Click "**Add role assignment**" then select "**Key Vault**" as the scope, select your Key Vault Name, then select "**Key Vault Secrets User**" for the role. Click "**Save**".
 
 ![DCRLogIngestion_Key_Vault_Access_2](Images/DCRLogIngestion_Key_Vault_Access_2.png)
 
 #
-### Solving the "Subscription Disabled" Error Code Issue
+### Ensuring your Subscription is Enabled
 
-If your playbook is still unable to run successfully, and is failing on the "**HTTP - Get O365 Audit General Logs**" step with the error: "**Subscription Disabled**", you can resolve this issue by running the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window) from the tenant you wish to **send the Microsoft Graph and Office data from**.
+To ensure the subscription is enabled for the app registration used to access the"**O365 Audit General Logs**", the [AzureCloudShellScript](https://github.com/Accelerynt-Security/AS-Microsoft-DCR-Log-Ingestion/blob/main/Scripts/AzureCloudShellScript.ps1) should be run from an [Azure Cloud Shell Window](https://learn.microsoft.com/en-us/azure/cloud-shell/new-ui-shell-window) from the tenant you wish to **send the Microsoft Graph and Office data from**.
 
 ![DCRLogIngestion_Azure_Cloud_Shell_1](Images/DCRLogIngestion_Azure_Cloud_Shell_1.png)
 
-Click the "**PowerShell**" option, then select the appropriate subcription for the sending tenant.
+Click the "**PowerShell**" option, then select the appropriate subscription for the sending tenant.
 
 ![DCRLogIngestion_Azure_Cloud_Shell_2](Images/DCRLogIngestion_Azure_Cloud_Shell_2.png)
 
 Copy and paste the script into the Azure Cloud Shell PowerShell window and hit enter. You will be prompted to enter your **sending** tenant, as well as the **sending** app registration client ID and client secret.
 
 ![DCRLogIngestion_Azure_Cloud_Shell_3](Images/DCRLogIngestion_Azure_Cloud_Shell_3.png)
+
+#
+### Enable the Logic App
+
+After all of the above steps are completed, from the Logic App Overview page, click "**Enable**".
+
+![DCRLogIngestion_Logic_App_Enable_1](Images/DCRLogIngestion_Logic_App_Enable_1.png)
